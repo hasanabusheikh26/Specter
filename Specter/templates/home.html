@@ -16,7 +16,6 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <link rel="stylesheet" href="styles.css">
   <title>Specter</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <style>
     body {
       margin: 0;
@@ -27,10 +26,12 @@
     }
 
     .chat-container {
+      margin-top:6%;
+      margin-bottom:10%;
       width: 100%;
-      height: 100%;
+      height: 80%;
       max-width: 100%;
-      max-height: 700px;
+      max-height: 550px;
       border-radius: 10px;
       overflow: hidden;
       box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
@@ -44,6 +45,7 @@
       padding: 20px;
       display: flex;
       flex-direction: column;
+      max-height: calc(100vh - 100px); /* Subtract the height of the chat input */
     }
 
     .message-container {
@@ -80,12 +82,14 @@
     }
 
     .chat-input {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
       padding: 20px;
       background-color: #333;
-      width: 100%;
       border-top: 1px solid #555;
-      position: sticky;
-      bottom: 0;
+      z-index: 9999; /* Set a higher z-index to make it appear above other elements */
     }
 
     .form-control {
@@ -125,7 +129,7 @@
 
     .bot-avatar {
       background-color: #F0F0F0;
-        margin:10px;
+      margin:10px;
     }
 
     /* Auto buttons */
@@ -157,13 +161,14 @@
     {% for past_question in past_questions %}
     <div class="message-container user-question">
       <div class="message">{{ past_question.question }}</div>
-        <div class="avatar user-avatar"></div>
+      <div class="avatar user-avatar"></div>
     </div>
     <div class="message-container bot-answer">
       <div class="avatar bot-avatar"></div>
       <div class="message">{{ past_question.answer }}</div>
     </div>
     <div class="message-separator"></div>
+    {% empty %}
     {% endfor %}
     {% if response %}
     <div class="message-container user-question">
@@ -204,13 +209,10 @@
       </div>
     </form>
   </div>
-
 </div>
 </body>
 </html>
 
-<!--starts the design if not authinticated-->
-  
 {% else %}
 <!DOCTYPE html>
 <html lang="en">
