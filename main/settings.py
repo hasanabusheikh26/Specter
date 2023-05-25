@@ -84,7 +84,13 @@ DATABASES = {
         "NAME": BASE_DIR / "db.sqlite3",
     }
 }
+DATABASES['default']=dj_database_url.config(default='postgres://gxrmprejwhffno:eef7d25962adb455e702a1115344a288c735d7a5073dea2fd04749c70ff4b9a0@ec2-54-156-8-21.compute-1.amazonaws.com:5432/d6sc2c7qhhor9p')
 
+
+
+db_from_env=dj_database_url.config(conn_max_age='')
+
+DATABASES['default'].update(db_from_env)
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
