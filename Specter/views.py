@@ -10,8 +10,7 @@ from .forms import SignUpForm
 
 # Create your homepagehere.
 def home(request):
-    past_questions = Past.objects.all()  # Fetch all past questions from the database
-    
+    past_questions = Past.objects.filter(user_id=request.user.id)  # Fetch all past questions from the database
     if request.method == "POST":
         question = request.POST['question']
         past_responses = request.POST['past_responses']

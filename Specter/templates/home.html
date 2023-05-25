@@ -14,204 +14,255 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <link rel="stylesheet" href="styles.css">
-  <title>Specter</title>
   <style>
-    body {
-      margin: 0;
-      padding: 0;
-      min-height: 100vh;
-      background-color: #212529;
-      font-family: Arial, sans-serif;
-    }
+  body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    background-color: #212529;
+    font-family: Arial, sans-serif;
+  }
 
-    .chat-container {
-      margin-top:6%;
-      margin-bottom:10%;
-      width: 100%;
-      height: 80%;
-      max-width: 100%;
-      max-height: 550px;
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
-      display: flex;
-      flex-direction: column;
-    }
+  .container {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 30px;
+  }
 
-    .chat-history {
-      flex-grow: 1;
-      overflow-y: auto;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      max-height: calc(100vh - 100px); /* Subtract the height of the chat input */
-    }
+  .chat-container {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+    background-color: #333;
+  }
 
-    .message-container {
-      display: flex;
-      justify-content: flex-start;
-      align-items: flex-start;
-      margin-bottom: 15px;
-    }
+  .chat-history {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    max-height: calc(100vh - 240px); /* Subtract the height of the navbar and chat input */
+  }
 
-    .message-container.user-question {
-      justify-content: flex-end;
-      align-items: flex-end;
-    }
+  .message-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-bottom: 15px;
+  }
 
-    .message {
-      display: inline-block;
-      background-color: #333;
-      border-radius: 20px;
-      padding: 10px 15px;
-      max-width: 70%;
-      word-wrap: break-word;
-      box-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
-      line-height: 1.4;
-      color: #fff;
-    }
+  .message-container.user-question {
+    justify-content: flex-end;
+    align-items: flex-end;
+  }
 
-    .user-question .message {
-      background-color: #0080FE;
-    }
+  .message {
+    display: inline-block;
+    background-color: #333;
+    border-radius: 20px;
+    padding: 10px 15px;
+    max-width: 100%;
+    word-wrap: break-word;
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
+    line-height: 1.4;
+    color: #fff;
+  }
 
-    .bot-answer .message {
-      background-color: #F0F0F0;
-      color: #555;
-    }
+  .user-question .message {
+    background-color: #0080FE;
+  }
 
-    .chat-input {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      padding: 20px;
-      background-color: #333;
-      border-top: 1px solid #555;
-      z-index: 9999; /* Set a higher z-index to make it appear above other elements */
-    }
+  .bot-answer .message {
+    background-color: #F0F0F0;
+    color: #555;
+  }
 
-    .form-control {
-      padding: 25px;
-      border-radius: 5px;
-      border: 2px solid #555;
-      background-color: #444;
-      color: #fff;
-    }
+  .chat-input {
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 5px;
+    background-color: #111;
+    border-top: 1px solid #555;
+    z-index: 9999; /* Set a higher z-index to make it appear above other elements */
+  }
 
-    .btn {
-      background-color: #0080FE;
-      color: #fff;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 100px;
-      cursor: pointer;
-    }
+  .form-control {
+    padding: 15px;
+    border: 2px solid #555;
+    background-color: #444;
+    color: #fff;
+    border-radius: 10px;
+  }
 
-    .message-separator {
-      border-bottom: 2px solid #555;
-      margin-bottom: 15px;
-    }
+  .btn {
+    background-color: #0080FE;
+    color: #fff;
+    border: none;
+    padding: 5px 15px;
+    border-radius: 10px;
+    cursor: pointer;
+  }
 
-    /* Avatars */
-    .avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      margin-right: 10px;
-    }
+  .message-separator {
+    border-bottom: 2px solid #555;
+    margin-bottom: 15px;
+  }
 
-    .user-avatar {
-      background-color: #0080FE;
-      margin:10px;
-    }
+  /* Avatars */
+  .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
 
-    .bot-avatar {
-      background-color: #F0F0F0;
-      margin:10px;
-    }
+  .user-avatar {
+    background-color: #0080FE;
+    margin: 10px;
+  }
 
-    /* Auto buttons */
-    .auto-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      margin-top: 10px;
-    }
+  .bot-avatar {
+    background-color: #F0F0F0;
+    margin: 10px;
+  }
 
-    .auto-button {
-      background-color: #555;
-      color: #fff;
-      border: none;
-      padding: 5px 10px;
-      margin-right: 10px;
-      margin-bottom: 10px;
-      border-radius: 5px;
-      cursor: pointer;
-    }
+  /* Auto buttons */
+  .auto-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
 
-    .auto-button:hover {
-      background-color: #777;
-    }
-  </style>
+  .auto-button {
+    background-color: #555;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+
+  .auto-button:hover {
+    background-color: #777;
+  }
+</style>
+
 </head>
 <body>
-<div class="chat-container">
-  <div class="chat-history">
-    {% for past_question in past_questions %}
-    <div class="message-container user-question">
-      <div class="message">{{ past_question.question }}</div>
-      <div class="avatar user-avatar"></div>
+<div class="container">
+  <div class="chat-container">
+    <div class="chat-history" id="chat-history">
+      {% for past_question in past_questions %}
+      <div class="message-container user-question">
+        <div class="message">{{ past_question.question }}</div>
+        <div class="avatar user-avatar"></div>
+      </div>
+      <div class="message-container bot-answer">
+        <div class="avatar bot-avatar"></div>
+        <div class="message">{{ past_question.answer }}</div>
+      </div>
+      <div class="message-separator"></div>
+      {% empty %}
+      {% endfor %}
+      {% if response %}
+      <div class="message-container user-question">
+        <div class="avatar user-avatar"></div>
+        <div class="message">{{ question }}</div>
+      </div>
+      <div class="message-container bot-answer">
+        <div class="avatar bot-avatar"></div>
+        <div class="message">{{ response }}</div>
+      </div>
+      <div class="message-separator"></div>
+      {% endif %}
+      {% if error_message %}
+      <div class="message-container">
+        <div class="message" style="color: #FF0000;">{{ error_message }}</div>
+      </div>
+      <div class="message-separator"></div>
+      {% endif %}
     </div>
-    <div class="message-container bot-answer">
-      <div class="avatar bot-avatar"></div>
-      <div class="message">{{ past_question.answer }}</div>
-    </div>
-    <div class="message-separator"></div>
-    {% empty %}
-    {% endfor %}
-    {% if response %}
-    <div class="message-container user-question">
-      <div class="avatar user-avatar"></div>
-      <div class="message">{{ question }}</div>
-    </div>
-    <div class="message-container bot-answer">
-      <div class="avatar bot-avatar"></div>
-      <div class="message">{{ response }}</div>
-    </div>
-    <div class="message-separator"></div>
-    {% endif %}
-    {% if error_message %}
-    <div class="message-container">
-      <div class="message" style="color: #FF0000;">{{ error_message }}</div>
-    </div>
-    <div class="message-separator"></div>
-    {% endif %}
   </div>
-
   <div class="chat-input">
-    <form method="POST" action="{% url 'home' %}">
+    <form id="chat-form" method="POST" action="{% url 'home' %}">
       {% csrf_token %}
       <div class="input-group">
         <input type="hidden" name="past_responses" value="{{ past_responses }}">
         <input type="text" name="question" class="form-control" placeholder="Type your question..." autofocus>
         <button type="submit" class="btn">
-          <i class="fas fa-paper-plane"></i> Send
+          <i class="fas fa-paper-plane"></i>
         </button>
       </div>
 
       <!-- Auto buttons -->
       <div class="auto-buttons">
-        <button type="button" class="auto-button">Button 1</button>
-        <button type="button" class="auto-button">Button 2</button>
-        <button type="button" class="auto-button">Button 3</button>
+        <button type="button" class="auto-button">How can i Issue and ID</button>
+        <button type="button" class="auto-button">What is labor Law in UAE?</button>
+        <button type="button" class="auto-button">My Imagration Visa is ending how to renew it</button>
         <!-- Add more auto buttons as needed -->
       </div>
+        
     </form>
   </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function() {
+      // Function to scroll chat history to the bottom
+      function scrollToBottom() {
+        var chatHistory = $("#chat-history");
+        chatHistory.scrollTop(chatHistory.prop("scrollHeight"));
+      }
+
+      // Function to append a user message to the chat history
+      function appendUserMessage(message) {
+        var messageContainer = $("<div>").addClass("message-container user-question");
+        var avatar = $("<div>").addClass("avatar user-avatar");
+        var messageText = $("<div>").addClass("message").text(message);
+        messageContainer.append(avatar).append(messageText);
+        $("#chat-history").append(messageContainer);
+      }
+
+      // Function to append a bot answer to the chat history
+      function appendBotAnswer(question, answer) {
+        var messageContainer = $("<div>").addClass("message-container bot-answer");
+        var avatar = $("<div>").addClass("avatar bot-avatar");
+        var messageText = $("<div>").addClass("message");
+        var questionText = $("<p>").html("<strong>Question:</strong> " + question);
+        var answerText = $("<p>").html("<strong>Answer:</strong> " + answer);
+        messageText.append(questionText).append(answerText);
+        messageContainer.append(avatar).append(messageText);
+        $("#chat-history").append(messageContainer);
+        scrollToBottom();
+      }
+
+      // Submit form on Enter key press
+      $(document).on("keypress", "#chat-form input", function(e) {
+        if (e.which == 13) {
+          e.preventDefault();
+          $(this).closest("form").submit();
+        }
+      });
+
+      // Handle form submit
+     
+    });
+  </script>
+    
 </body>
 </html>
+
 
 {% else %}
 <!DOCTYPE html>
@@ -237,7 +288,7 @@
       top: 0;
       left: 0;
       width: 100%;
-      height: 80%;
+      height: 60%;
       z-index: -1;
       overflow: hidden;
     }
@@ -339,6 +390,16 @@
     .footer p {
       margin: 0;
     }
+      
+       .logo {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .logo img {
+      width: 100px;
+    }
+
   </style>
 </head>
 
@@ -350,6 +411,10 @@
   </div>
 
   <div class="container">
+      <div class="form-container">
+      <div class="logo">
+        <img src="static/images/logo.png" alt="Specter AI">
+      </div>
     <h1>Specter - Your AI Lawyer</h1>
     <p>Close your cases with Specter</p>
     <a href="{% url 'register' %}" class="btn btn-primary">Get Started</a>
@@ -399,7 +464,6 @@
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
-
 </html>
 
 
