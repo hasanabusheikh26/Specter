@@ -1,0 +1,414 @@
+{% extends 'base.html' %}
+
+{%block content%}
+
+{% if user.is_authenticated%} 
+{%if question%}
+<h3>Question: {{ question }}</h3>
+<br/>
+{%endif%}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="styles.css">
+  <title>Specter</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      background-color: #212529;
+      font-family: Arial, sans-serif;
+    }
+
+    .chat-container {
+      width: 100%;
+      height: 100%;
+      max-width: 100%;
+      max-height: 700px;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .chat-history {
+      flex-grow: 1;
+      overflow-y: auto;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .message-container {
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+      margin-bottom: 15px;
+    }
+
+    .message-container.user-question {
+      justify-content: flex-end;
+      align-items: flex-end;
+    }
+
+    .message {
+      display: inline-block;
+      background-color: #333;
+      border-radius: 20px;
+      padding: 10px 15px;
+      max-width: 70%;
+      word-wrap: break-word;
+      box-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
+      line-height: 1.4;
+      color: #fff;
+    }
+
+    .user-question .message {
+      background-color: #0080FE;
+    }
+
+    .bot-answer .message {
+      background-color: #F0F0F0;
+      color: #555;
+    }
+
+    .chat-input {
+      padding: 20px;
+      background-color: #333;
+      width: 100%;
+      border-top: 1px solid #555;
+      position: sticky;
+      bottom: 0;
+    }
+
+    .form-control {
+      padding: 25px;
+      border-radius: 5px;
+      border: 2px solid #555;
+      background-color: #444;
+      color: #fff;
+    }
+
+    .btn {
+      background-color: #0080FE;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 100px;
+      cursor: pointer;
+    }
+
+    .message-separator {
+      border-bottom: 2px solid #555;
+      margin-bottom: 15px;
+    }
+
+    /* Avatars */
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+
+    .user-avatar {
+      background-color: #0080FE;
+      margin:10px;
+    }
+
+    .bot-avatar {
+      background-color: #F0F0F0;
+        margin:10px;
+    }
+
+    /* Auto buttons */
+    .auto-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .auto-button {
+      background-color: #555;
+      color: #fff;
+      border: none;
+      padding: 5px 10px;
+      margin-right: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .auto-button:hover {
+      background-color: #777;
+    }
+  </style>
+</head>
+<body>
+<div class="chat-container">
+  <div class="chat-history">
+    {% for past_question in past_questions %}
+    <div class="message-container user-question">
+      <div class="message">{{ past_question.question }}</div>
+        <div class="avatar user-avatar"></div>
+    </div>
+    <div class="message-container bot-answer">
+      <div class="avatar bot-avatar"></div>
+      <div class="message">{{ past_question.answer }}</div>
+    </div>
+    <div class="message-separator"></div>
+    {% endfor %}
+    {% if response %}
+    <div class="message-container user-question">
+      <div class="avatar user-avatar"></div>
+      <div class="message">{{ question }}</div>
+    </div>
+    <div class="message-container bot-answer">
+      <div class="avatar bot-avatar"></div>
+      <div class="message">{{ response }}</div>
+    </div>
+    <div class="message-separator"></div>
+    {% endif %}
+    {% if error_message %}
+    <div class="message-container">
+      <div class="message" style="color: #FF0000;">{{ error_message }}</div>
+    </div>
+    <div class="message-separator"></div>
+    {% endif %}
+  </div>
+
+  <div class="chat-input">
+    <form method="POST" action="{% url 'home' %}">
+      {% csrf_token %}
+      <div class="input-group">
+        <input type="hidden" name="past_responses" value="{{ past_responses }}">
+        <input type="text" name="question" class="form-control" placeholder="Type your question..." autofocus>
+        <button type="submit" class="btn">
+          <i class="fas fa-paper-plane"></i> Send
+        </button>
+      </div>
+
+      <!-- Auto buttons -->
+      <div class="auto-buttons">
+        <button type="button" class="auto-button">Button 1</button>
+        <button type="button" class="auto-button">Button 2</button>
+        <button type="button" class="auto-button">Button 3</button>
+        <!-- Add more auto buttons as needed -->
+      </div>
+    </form>
+  </div>
+
+</div>
+</body>
+</html>
+
+<!--starts the design if not authinticated-->
+  
+{% else %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Company</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+      height: 100vh;
+      align-items: center;
+      justify-content: center;
+      direction: ltr;
+      font-family: Arial, sans-serif;
+      background-color: black;
+    }
+
+    .video-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 80%;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .video-bg video {
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+    }
+
+    .container {
+      padding: 50px;
+      text-align: center;
+      color: #fff;
+    }
+
+    .container h1 {
+      font-size: 48px;
+      font-weight: bold;
+      margin-bottom: 30px;
+    }
+
+    .container p {
+      font-size: 18px;
+      margin-bottom: 30px;
+    }
+
+    .container .btn {
+      font-size: 18px;
+      padding: 15px 30px;
+      border-radius: 30px;
+              color:black;
+
+      background-color: white;
+      border-color: black;
+    }
+
+    .container .btn:hover {
+      background-color: black;
+      color:white;
+    }
+
+    .features {
+      padding: 80px 0;
+	color:white ;
+    }
+
+    .features h2 {
+    margin-bottom: 40px;
+	color:white ;    }
+
+    .card {
+      border: none;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease-in-out;
+      color:white;
+      background-color: black;
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+    }
+
+    .card-header {
+      background-color: #0080FE;
+		color:white;
+        font-size: 20px;
+      font-weight: bold;
+      padding: 20px;
+      border-radius: 10px 10px 0 0;
+    }
+
+    .card-body {
+        color:white;
+      padding: 30px;
+    }
+
+    .card-title {
+        
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      color: white;
+    }
+
+    .card-text {
+      font-size: 18px;
+      color: #888;
+    }
+
+    .footer {
+      margin-top: 40px;
+      padding: 20px 0;
+      color: #fff;
+      text-align: center;
+    }
+
+    .footer p {
+      margin: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="video-bg">
+    <video autoplay muted loop id="background-video">
+      <source src="static/images/circut.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <div class="container">
+    <h1>Specter - Your AI Lawyer</h1>
+    <p>Close your cases with Specter</p>
+    <a href="{% url 'register' %}" class="btn btn-primary">Get Started</a>
+  </div>
+
+  <section class="features">
+    <div class="container">
+      <h2>Key Features</h2>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="card">
+            <div class="card-header">Generate Suggestions</div>
+            <div class="card-body">
+              <h5 class="card-title">AI Generation</h5>
+              <p class="card-text">Receive suggestions on how to update counterparty language based on your standard position. Toggle suggestions to accept and generate redline.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card">
+            <div class="card-header">Modify Clauses</div>
+            <div class="card-body">
+              <h5 class="card-title">Editor</h5>
+              <p class="card-text">Generate automatic redlines and insert them directly into the document.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card">
+            <div class="card-header">Ask Questions</div>
+            <div class="card-body">
+              <h5 class="card-title">Interactive</h5>
+              <p class="card-text">Get answers about your agreement; ask anything from granular, needle-in-the-haystack questions to broader, open-ended questions.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2023 Your Company. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>
+
+
+{% endif %} 
+
+          
+          
+    
+
+
+      <!--putting statement of logic-->
+<br/>
+
+{% endblock %}

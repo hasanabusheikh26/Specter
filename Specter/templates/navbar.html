@@ -1,0 +1,105 @@
+<style>
+  body {
+    padding-top: 70px;
+  }
+
+  nav.navbar {
+    background-color: #212529;
+    color: #fff;
+    direction: rtl;
+  }
+
+  nav.navbar .navbar-brand {
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff;
+  }
+
+  nav.navbar .nav-link {
+    font-size: 16px;
+    color: #fff;
+  }
+
+  nav.navbar .nav-link:hover {
+    color: #ccc;
+  }
+
+  .btn-primary {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+  }
+
+  .btn-primary:hover {
+    background-color: #0069d9;
+    border-color: #0069d9;
+    color: #fff;
+  }
+
+  .btn-outline-primary {
+    color: #007bff;
+    border-color: #007bff;
+  }
+
+  .btn-outline-primary:hover {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: #fff;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    body {
+      background-color: #343a40;
+    }
+
+    nav.navbar {
+      background-color: #343a40;
+      color: #fff;
+    }
+
+    nav.navbar .nav-link {
+      color: #fff;
+    }
+
+    nav.navbar .nav-link:hover {
+      color: #ccc;
+    }
+  }
+</style>
+
+<nav class="navbar navbar-expand-lg fixed-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{% url 'home' %}">Specter</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'home' %}">الرئيسية</a>
+        </li>
+        {% if user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'past' %}">السابقة</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'logout' %}">
+            <button type="button" class="btn btn-outline-primary">تسجيل الخروج</button>
+          </a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'login' %}">
+            <button type="button" class="btn btn-primary">تسجيل الدخول</button>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'register' %}">
+            <button type="button" class="btn btn-outline-primary">إنشاء حساب</button>
+          </a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
