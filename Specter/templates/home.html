@@ -12,231 +12,210 @@
 <head>
   <meta charset="UTF-8">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <style>
-  body {
-    padding: 0;
-    min-height: 100vh;
-    background-color: #212529;
-    font-family: Arial, sans-serif;
-  }
+      
+    body {
+      padding: 0;
+      margin: 0;
+      min-height: 100vh;
+      background-color: #212529;
+      font-family: Arial, sans-serif;
+    }
 
-  .container {
-    max-width: 100%;
-    margin: 0 auto;
-    padding: 30px;
-  }
+    .container {
+      max-width: 100%;
+      margin: 0 auto;
+      padding-top: 5vh;
+      padding-bottom: 5vh;
 
-  .chat-container {
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
-    display: flex;
-    flex-direction: column;
-    background-color: #333;
-  }
+    }
 
-  .chat-history {
-    flex-grow: 1;
-    overflow-y: auto;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    max-height: calc(100vh - 240px); /* Subtract the height of the navbar and chat input */
-  }
+    .chat-container {
+      border-radius: 10px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      background-color: #333;
+    }
 
-  .message-container {
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    margin-bottom: 15px;
-  }
+    .chat-history {
+      flex-grow: 1;
+      overflow-y: auto;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      max-height: calc(100vh - 240px);
+    }
 
-  .message-container.user-question {
-    justify-content: flex-end;
-    align-items: flex-end;
-  }
+    .message-container {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      margin-bottom: 10px;
+    }
 
-  .message {
-    display: inline-block;
-    background-color: #333;
-    border-radius: 20px;
-    padding: 10px 15px;
-    max-width: 100%;
-    word-wrap: break-word;
-    box-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
-    line-height: 1.4;
-    color: #fff;
-  }
+    .message-container.user-question {
+      align-items: flex-end;
+    }
 
-  .user-question .message {
-    background-color: #0080FE;
-  }
+    .message {
+      display: inline-block;
+      background-color: #333;
+      border-radius: 20px;
+      padding: 10px 15px;
+      max-width: 100%;
+      word-wrap: break-word;
+      box-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
+      line-height: 1.4;
+      color: #fff;
+    }
 
-  .bot-answer .message {
-    background-color: #F0F0F0;
-    color: #555;
-  }
+    .user-question .message {
+      background-color: #0080FE;
+    }
 
-.chat-input {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  padding: 15px;
-  margin-bottom: 5px;
-  background-color: #111;
-  border-top: 1px solid #555;
-  z-index: 9999; /* Set a higher z-index to make it appear above other elements */
-}
+    .bot-answer .message {
+      background-color: #F0F0F0;
+      color: #555;
+      margin-top: 5px;
+    }
 
-.form-control {
-  padding: 15px;
-  border: 2px solid #555;
-  background-color: #444;
-  color: #fff;
-  border-radius: 50px; /* Updated border-radius value for a more rounded shape */
-}
+    .chat-input {
+      align-items: center;
+      justify-content: center;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      padding: 15px;
+      background-color: #111;
+      border-top: 1px solid #555;
+      z-index: 9999;
+    }
 
-.btn {
-  background-color: #0080FE;
-  color: #fff;
-  border: none;
-  padding: 8px 20px; /* Adjusted padding for better button size */
-  border-radius: 10px;
-  cursor: pointer;
-}
+    .form-control {
+      width: 100%;
+      border: 2px solid #555;
+      background-color: #444;
+      color: #fff;
+      border-radius: 50px;
+    }
 
-.btn:hover {
-  background-color: #0066CC; /* Darker background color on hover */
-}
+    .btn {
+      width: 100%;
+      background-color: #0080FE;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
 
+    .btn:hover {
+      background-color: #0066CC;
+    }
 
-  .message-separator {
-    border-bottom: 2px solid #555;
-    margin-bottom: 15px;
-  }
+    .message-separator {
+      border-bottom: 2px solid #555;
+      margin-bottom: 15px;
+    }
 
-  /* Avatars */
-  .avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    margin-right: 10px;
-  }
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
 
-  .user-avatar {
-    background-color: #0080FE;
-    margin: 10px;
-  }
+    .user-avatar {
+      background-color: #0080FE;
+      margin: 10px;
+    }
 
-  .bot-avatar {
-    background-color: #F0F0F0;
-    margin: 10px;
-  }
+    .bot-avatar {
+      background-color: #F0F0F0;
+      margin: 10px;
+    }
 
-  /* Auto buttons */
- .auto-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center; /* Align buttons in the center horizontally */
-  margin-top: 10px;
-}
+    @media (max-width: 576px) {
+      .container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-top: 0;
+        height: 100vh;
+      }
 
-.auto-button {
-  background-color: #555;
-  color: #fff;
-  border: none;
-  padding: 5px 10px;
-  margin-right: 10px;
-  margin-bottom: 10px;
-  border-radius: 10px;
-  cursor: pointer;
-}
-
-.auto-button:hover {
-  background-color: #777;
-}
-
-
-</style>
+      .chat-history {
+        max-height: calc(100vh - 140px);
+      }
+  </style>
 
 </head>
 <body>
-<div class="container">
-  <div class="chat-container">
-    <div class="chat-history" id="chat-history">
-      {% for past_question in past_questions %}
-      <div class="message-container user-question">
-        <div class="message">{{ past_question.question }}</div>
-        <div class="avatar user-avatar"></div>
+  <div class="container">
+    <div class="chat-container">
+      <div class="chat-history" id="chat-history">
+        {% for past_question in past_questions %}
+        <div class="message-container user-question">
+          <div class="message">{{ past_question.question }}</div>
+          <div class="avatar user-avatar"></div>
+        </div>
+        <div class="message-container bot-answer">
+          <div class="avatar bot-avatar"></div>
+          <div class="message">{{ past_question.answer }}</div>
+        </div>
+        <div class="message-separator"></div>
+        {% empty %}
+        {% endfor %}
+        {% if response %}
+        <div class="message-container user-question">
+          <div class="avatar user-avatar"></div>
+          <div class="message">{{ question }}</div>
+        </div>
+        <div class="message-container bot-answer">
+          <div class="avatar bot-avatar"></div>
+          <div class="message">{{ response }}</div>
+        </div>
+        <div class="message-separator"></div>
+        {% endif %}
+        {% if error_message %}
+        <div class="message-container">
+          <div class="message" style="color: #FF0000;">{{ error_message }}</div>
+        </div>
+        <div class="message-separator"></div>
+        {% endif %}
       </div>
-      <div class="message-container bot-answer">
-        <div class="avatar bot-avatar"></div>
-        <div class="message">{{ past_question.answer }}</div>
-      </div>
-      <div class="message-separator"></div>
-      {% empty %}
-      {% endfor %}
-      {% if response %}
-      <div class="message-container user-question">
-        <div class="avatar user-avatar"></div>
-        <div class="message">{{ question }}</div>
-      </div>
-      <div class="message-container bot-answer">
-        <div class="avatar bot-avatar"></div>
-        <div class="message">{{ response }}</div>
-      </div>
-      <div class="message-separator"></div>
-      {% endif %}
-      {% if error_message %}
-      <div class="message-container">
-        <div class="message" style="color: #FF0000;">{{ error_message }}</div>
-      </div>
-      <div class="message-separator"></div>
-      {% endif %}
+    </div>
+      
+      
+    <div class="chat-input">
+      <form id="chat-form" method="POST" action="{% url 'home' %}">
+        {% csrf_token %}
+        <div class="row">
+          <div class="col-10">
+            <input type="hidden" name="past_responses" value="{{ past_responses }}">
+            <input type="text" class="form-control" id="question-input" name="question" placeholder="Type your question" required>
+          </div>
+          <div class="col-2">
+            <button type="submit" class="btn"><i class="fas fa-paper-plane"></i></button>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
-     <div class="chat-input">
-        <form id="chat-form" method="POST" action="{% url 'home' %}">
-          {% csrf_token %}
-          <div class="row">
-            <div class="col-9">
-                <input type="hidden" name="past_responses" value="{{ past_responses }}">
-              <input type="text" class="form-control" id="question-input" name="question" placeholder="Type your question" required>
-            </div>
-            <div class="col-3">
-              <button type="submit" class="btn"><i class="fas fa-paper-plane"></i></button>
-            </div>
-          </div>
-      
-      <!-- Auto buttons -->
-      <div class="auto-buttons">
-        <button type="button" class="auto-button">How can i Issue and ID</button>
-        <button type="button" class="auto-button">What is labor Law in UAE?</button>
-        <button type="button" class="auto-button">My Imagration Visa is ending how to renew it</button>
-        <!-- Add more auto buttons as needed -->
-      </div>
-              </form>
-      </div>
-    </div>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script>
     $(document).ready(function() {
-      // Function to scroll chat history to the bottom
       function scrollToBottom() {
         var chatHistory = $("#chat-history");
         chatHistory.scrollTop(chatHistory.prop("scrollHeight"));
       }
 
-      // Function to append a user message to the chat history
       function appendUserMessage(message) {
         var messageContainer = $("<div>").addClass("message-container user-question");
         var avatar = $("<div>").addClass("avatar user-avatar");
@@ -245,7 +224,6 @@
         $("#chat-history").append(messageContainer);
       }
 
-      // Function to append a bot answer to the chat history
       function appendBotAnswer(question, answer) {
         var messageContainer = $("<div>").addClass("message-container bot-answer");
         var avatar = $("<div>").addClass("avatar bot-avatar");
@@ -258,7 +236,6 @@
         scrollToBottom();
       }
 
-      // Submit form on Enter key press
       $(document).on("keypress", "#chat-form input", function(e) {
         if (e.which == 13) {
           e.preventDefault();
@@ -267,12 +244,12 @@
       });
 
       // Handle form submit
-     
     });
   </script>
-    
+
 </body>
 </html>
+
 
 
 {% else %}
@@ -284,6 +261,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Your Company</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
   <style>
     body {
       height: 100vh;
@@ -479,13 +458,6 @@
 
 
 {% endif %} 
-
-          
-          
-    
-
-
-      <!--putting statement of logic-->
 <br/>
 
 {% endblock %}
