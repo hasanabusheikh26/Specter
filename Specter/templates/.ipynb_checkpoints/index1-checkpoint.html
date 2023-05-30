@@ -1,11 +1,3 @@
-<!--{% extends 'base.html' %}-->
-
-{%block content%}
-{% if user.is_authenticated%} 
-{%if question%}
-<h3>Question: {{ question }}</h3>
-<br/>
-{%endif%}
 <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
@@ -37,7 +29,8 @@
   -webkit-font-smoothing: antialiased;
 }
 
-
+    .nav {
+    }
 #frame {
   position: fixed;
   top: 0;
@@ -46,6 +39,7 @@
   left: 0;
   background: #E6EAEA;
 }
+
 
 
 #frame #sidepanel {
@@ -735,371 +729,162 @@
         }
 </style>
     </head>
-
-
-<body>
-	<div id="frame">
-		<div id="sidepanel">
-			<div id="profile">
-				<div class="wrap">
-					<img id="profile-img" src="http://emilcarlsson.se/assets/harveyspecter.png" class="online" alt="">
-					<p>Specter User</p>
-					<div id="status-options">
-						<ul>
-							<li id="status-online" class="active"><span class="status-circle"></span> <p>Online</p></li>
-							<li id="status-away"><span class="status-circle"></span> <p>Away</p></li>
-							<li id="status-busy"><span class="status-circle"></span> <p>Busy</p></li>
-							<li id="status-offline"><span class="status-circle"></span> <p>Offline</p></li>
-						</ul>
-					</div>
+    <body>
+<div id="frame">
+	<div id="sidepanel">
+		<div id="profile">
+			<div class="wrap">
+				<img id="profile-img" src="http://emilcarlsson.se/assets/mikeross.png" class="online" alt="" />
+				<p>Specter</p>
+				<div id="status-options">
+					<ul>
+						<li id="status-online" class="active"><span class="status-circle"></span> <p>Online</p></li>
+						<li id="status-away"><span class="status-circle"></span> <p>Away</p></li>
+						<li id="status-busy"><span class="status-circle"></span> <p>Busy</p></li>
+						<li id="status-offline"><span class="status-circle"></span> <p>Offline</p></li>
+					</ul>
 				</div>
-			</div>
-
-			<div id="search">
-				<button class="add-button">
-					<i class="fa fa-plus" aria-hidden="true"></i>
-					New Chat
-				</button>
-			</div>
-
-			<div id="contacts">
-				<ul>
-					<li class="contact">
-						<div class="wrap">
-							<span class="contact-status online"></span>
-							<img src="../static/images/logo.png" alt="">
-							<div class="meta">
-								<p class="name">Immgration papers filing </p>
-								<p class="preview">You just got LITT up, Mike.</p>
-							</div>
-						</div>
-					</li>
-				</ul>
-			</div>
-			<div id="bottom-bar">
-				<button id="addcontact"><i class="fa fa-user-plus fa-fw" aria-hidden="true"></i> <span>Invite Member</span></button>
-				<button id="settings"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> <span>Settings</span></button>
 			</div>
 		</div>
+        
+        <div id="search">
+			<button class="add-button">
+        		<i class="fa fa-plus" aria-hidden="true">
+        		</i> 
+                New Chat
+            </button>
+		</div>
 
-		<div class="content">
-			<div class="contact-profile">
-				<img src="../static/images/logo.png" alt="">
-				<p> Contract Issue Points</p>
-			</div>
-
-			<div class="messages">
-				{% for past_question in past_questions %}
-				<ul>
-					<li class="sent">
-						<img src="http://emilcarlsson.se/assets/mikeross.png" alt="">
-						<p>{{ past_question.question }}</p>
-					</li>
-					<li class="replies">
-						<img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="">
-						<p>{{ past_question.answer }}</p>
-					</li>
-				</ul>
-				{% empty %}
-				{% endfor %}
-
-				{% if response %}
-				<ul>
-					<li class="sent">
-						<img src="http://emilcarlsson.se/assets/mikeross.png" alt="">
-						<p>{{ question }}</p>
-					</li>
-					<li class="replies">
-						<img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="">
-						<p>{{ response }}</p>
-					</li>
-				</ul>
-				{% endif %}
-			</div>
-
-			<form id="message-form" action="{% url 'home' %}" method="POST" onsubmit="sendMessage(event)">
-				{% csrf_token %}
-				<div class="message-input">
+		<div id="contacts">
+			<ul>
+				<li class="contact">
 					<div class="wrap">
-						<input type="hidden" name="past_responses" value="{{ past_responses }}">
-						<input id="message-input" type="text" placeholder="Write your message..." name="question">
-						<i class="fa fa-paperclip attachment" aria-hidden="true"></i>
-						<button type="submit" class="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+						<span class="contact-status online"></span>
+						<img src="http://emilcarlsson.se/assets/louislitt.png" alt="" />
+						<div class="meta">
+							<p class="name">Louis Litt</p>
+							<p class="preview">You just got LITT up, Mike.</p>
+						</div>
 					</div>
-				</div>
-			</form>
+				</li>
+			</ul>
+		</div>
+		<div id="bottom-bar">
+			<button id="addcontact"><i class="fa fa-user-plus fa-fw" aria-hidden="true"></i> <span>Add contact</span></button>
+			<button id="settings"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> <span>Settings</span></button>
 		</div>
 	</div>
-
-	<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-	<script>
-		$(".messages").animate({ scrollTop: $(document).height() }, "fast");
-
-		$("#profile-img").click(function() {
-			$("#status-options").toggleClass("active");
-		});
-
-		$(".expand-button").click(function() {
-			$("#profile").toggleClass("expanded");
-			$("#contacts").toggleClass("expanded");
-		});
-
-		$("#status-options ul li").click(function() {
-			$("#profile-img").removeClass();
-			$("#status-online").removeClass("active");
-			$("#status-away").removeClass("active");
-			$("#status-busy").removeClass("active");
-			$("#status-offline").removeClass("active");
-			$(this).addClass("active");
-
-			if ($("#status-online").hasClass("active")) {
-				$("#profile-img").addClass("online");
-			} else if ($("#status-away").hasClass("active")) {
-				$("#profile-img").addClass("away");
-			} else if ($("#status-busy").hasClass("active")) {
-				$("#profile-img").addClass("busy");
-			} else if ($("#status-offline").hasClass("active")) {
-				$("#profile-img").addClass("offline");
-			} else {
-				$("#profile-img").removeClass();
-			}
-			;
-
-			$("#status-options").removeClass("active");
-		});
-
-		function newMessage() {
-			message = $(".message-input input").val();
-			if ($.trim(message) == '') {
-				return false;
-			}
-			$('<li class="sent"><img src="http://emilcarlsson.se/assets/mikeross.png" alt="" /><p>' + message + '</p></li>').appendTo($('.messages ul'));
-			$('.message-input input').val(null);
-			$('.contact.active .preview').html('<span>You: </span>' + message);
-			$(".messages").animate({ scrollTop: $(document).height() }, "fast");
-		}
-
-		$('.submit').click(function() {
-			newMessage();
-		});
-
-		$(window).on('keydown', function(e) {
-			if (e.which == 13) {
-				newMessage();
-				return false;
-			}
-		});
-	</script>
-</body>
-</html>
-
-
-{% else %}
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Your Company</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
-  <style>
-    body {
-      height: 100vh;
-      align-items: center;
-      justify-content: center;
-      direction: ltr;
-      font-family: Arial, sans-serif;
-      background-color: black;
-    }
-
-    .video-bg {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 60%;
-      z-index: -1;
-      overflow: hidden;
-    }
-
-    .video-bg video {
-      object-fit: cover;
-      width: 100%;
-      height: 100%;
-    }
-
-    .container {
-      padding: 50px;
-      text-align: center;
-      color: #fff;
-    }
-
-    .container h1 {
-      font-size: 48px;
-      font-weight: bold;
-      margin-bottom: 30px;
-    }
-
-    .container p {
-      font-size: 18px;
-      margin-bottom: 30px;
-    }
-
-    .container .btn {
-      font-size: 18px;
-      padding: 15px 30px;
-      border-radius: 30px;
-              color:black;
-
-      background-color: white;
-      border-color: black;
-    }
-
-    .container .btn:hover {
-      background-color: black;
-      color:white;
-    }
-
-    .features {
-      padding: 80px 0;
-	color:white ;
-    }
-
-    .features h2 {
-    margin-bottom: 40px;
-	color:white ;    }
-
-    .card {
-      border: none;
-      border-radius: 10px;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease-in-out;
-      color:white;
-      background-color: black;
-    }
-
-    .card:hover {
-      transform: scale(1.05);
-    }
-
-    .card-header {
-      background-color: #0080FE;
-		color:white;
-        font-size: 20px;
-      font-weight: bold;
-      padding: 20px;
-      border-radius: 10px 10px 0 0;
-    }
-
-    .card-body {
-        color:white;
-      padding: 30px;
-    }
-
-    .card-title {
+    
+  
+	<div class="content">
         
-      font-size: 24px;
-      font-weight: bold;
-      margin-bottom: 20px;
-      color: white;
-    }
-
-    .card-text {
-      font-size: 18px;
-      color: #888;
-    }
-
-    .footer {
-      margin-top: 40px;
-      padding: 20px 0;
-      color: #fff;
-      text-align: center;
-    }
-
-    .footer p {
-      margin: 0;
-    }
-      
-       .logo {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-
-    .logo img {
-      width: 100px;
-    }
-
-  </style>
-</head>
-
-<body>
-  <div class="video-bg">
-    <video autoplay muted loop id="background-video">
-      <source src="static/images/circut.mp4" type="video/mp4">
-    </video>
-  </div>
-
-  <div class="container">
-      <div class="form-container">
-      <div class="logo">
-        <img src="static/images/logo.png" alt="Specter AI">
-      </div>
-    <h1>Specter - Your AI Lawyer</h1>
-    <p>Close your cases with Specter</p>
-    <a href="{% url 'register' %}" class="btn btn-primary">Get Started</a>
-  </div>
-
-  <section class="features">
-    <div class="container">
-      <h2>Key Features</h2>
-      <div class="row">
-        <div class="col-md-4">
-          <div class="card">
-            <div class="card-header">Generate Suggestions</div>
-            <div class="card-body">
-              <h5 class="card-title">AI Generation</h5>
-              <p class="card-text">Receive suggestions on how to update counterparty language based on your standard position. Toggle suggestions to accept and generate redline.</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card">
-            <div class="card-header">Modify Clauses</div>
-            <div class="card-body">
-              <h5 class="card-title">Editor</h5>
-              <p class="card-text">Generate automatic redlines and insert them directly into the document.</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card">
-            <div class="card-header">Ask Questions</div>
-            <div class="card-body">
-              <h5 class="card-title">Interactive</h5>
-              <p class="card-text">Get answers about your agreement; ask anything from granular, needle-in-the-haystack questions to broader, open-ended questions.</p>
-            </div>
-          </div>
-        </div>
-      </div>
+		<div class="contact-profile">
+			<img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
+			<p>Harvey Specter</p>
+		</div>
+                
+			
+        
+	{% for past_question in past_questions %}
+		<div class="messages">
+            <ul>
+				<li class="sent">
+					<img src="http://emilcarlsson.se/assets/mikeross.png" alt="" />
+					<p>{{ past_question.question }}</p>
+				</li>
+				<li class="replies">
+					<img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
+					<p>{{ past_question.answer }}</p>
+				</li>
+			</ul>
+		</div>
+    	{% endif %}
+        {% empty %}
+        {% endfor %}
+        
+             {% if response %}
+			<ul>
+				<li class="sent">
+					<img src="http://emilcarlsson.se/assets/mikeross.png" alt="" />
+					<p>{{ question }}</p>
+				</li>
+				<li class="replies">
+					<img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
+					<p>{{ response }}</p>
+				</li>
+			</ul>
+		</div>
+    {% endif %}
+        
+		<form id="message-form" action="{% url 'home' %}" method="POST" onsubmit="sendMessage(event)">
+            {% csrf_token %}
+  <div class="message-input">
+    <div class="wrap">
+        <input type="hidden" name="past_responses" value="{{ past_responses }}">
+      <input id="message-input" type="text" placeholder="Write your message..." name="question"/>
+      <i class="fa fa-paperclip attachment" aria-hidden="true"></i>
+      <button type="submit" class="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
     </div>
-  </section>
+  </div>
+</form>
 
-  <footer class="footer">
-    <div class="container">
-      <p>&copy; 2023 Your Company. All rights reserved.</p>
-    </div>
-  </footer>
+	</div>
+<script src='//production-assets.codepen.io/assets/common/stopExecutionOnTimeout-b2a7b3fe212eaa732349046d8416e00a9dec26eb7fd347590fbced3ab38af52e.js'></script><script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
+<script >$(".messages").animate({ scrollTop: $(document).height() }, "fast");
 
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-</html>
+$("#profile-img").click(function() {
+	$("#status-options").toggleClass("active");
+});
 
+$(".expand-button").click(function() {
+  $("#profile").toggleClass("expanded");
+	$("#contacts").toggleClass("expanded");
+});
 
-{% endif %} 
-<br/>
+$("#status-options ul li").click(function() {
+	$("#profile-img").removeClass();
+	$("#status-online").removeClass("active");
+	$("#status-away").removeClass("active");
+	$("#status-busy").removeClass("active");
+	$("#status-offline").removeClass("active");
+	$(this).addClass("active");
+	
+	if($("#status-online").hasClass("active")) {
+		$("#profile-img").addClass("online");
+	} else if ($("#status-away").hasClass("active")) {
+		$("#profile-img").addClass("away");
+	} else if ($("#status-busy").hasClass("active")) {
+		$("#profile-img").addClass("busy");
+	} else if ($("#status-offline").hasClass("active")) {
+		$("#profile-img").addClass("offline");
+	} else {
+		$("#profile-img").removeClass();
+	};
+	
+	$("#status-options").removeClass("active");
+});
 
-{% endblock %}
+function newMessage() {
+	message = $(".message-input input").val();
+	if($.trim(message) == '') {
+		return false;
+	}
+	$('<li class="sent"><img src="http://emilcarlsson.se/assets/mikeross.png" alt="" /><p>' + message + '</p></li>').appendTo($('.messages ul'));
+	$('.message-input input').val(null);
+	$('.contact.active .preview').html('<span>You: </span>' + message);
+	$(".messages").animate({ scrollTop: $(document).height() }, "fast");
+};
+
+$('.submit').click(function() {
+  newMessage();
+});
+
+$(window).on('keydown', function(e) {
+  if (e.which == 13) {
+    newMessage();
+    return false;
+  }
+});
+//# sourceURL=pen.js
+</script>
+</body></html>
